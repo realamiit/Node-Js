@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express()
 
-
 app.get('/', (req, res) => {
     res.send('Amit Gupta here  i m enable to force u to do your best')
 
