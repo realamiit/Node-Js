@@ -21,4 +21,9 @@ app.get('/profile', (req, res) => {
     res.send('I am Amit Gupta ,im persuing BCA FROM DR ghanshyam singh colleg of aducation Varansi  !!')
 
 })
+
+app.get('/papaya', (req, res) => {
+    res.send('papaya is a fruits')
+
+})
 app.listen(3000)
