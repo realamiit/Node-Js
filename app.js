@@ -1,20 +1,25 @@
-const http = require('http')
+const express = require('express');
+const app = express()
 
-const server = http.createServer((req,res)=>{
-    if(req.url ==  "/about"){
-        res.end ("The about page    jiiii  kii here")
-    }
 
-    if(req.url == "/profile"){
-        res.end ("I Am Amit Gupta")
-    }
-
-    if(req.url == "/") {
-        res.end("im home page")
-    }
-   
+app.get('/', (req, res) => {
+    res.send('Amit Gupta here  i m enable to force u to do your best')
 
 })
 
 
-server.listen(3000, () => console.log('Server running on port 3000'))
+app.get('/about', (req, res) => {
+    res.send('I am about page also')
+
+})
+
+app.get('/home', (req, res) => {
+    res.send('I am here at the home page !!!!')
+
+})
+
+app.get('/profile', (req, res) => {
+    res.send('I am Amit Gupta ,im persuing BCA FROM DR ghanshyam singh colleg of aducation Varansi  !!')
+
+})
+app.listen(3000)
