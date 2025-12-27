@@ -4,12 +4,12 @@ const app = express()
 app.set ('view engine', 'ejs')
 
 app.get('/', (req, res) => {
-    res.send('index')
+    res.render('index')
 
 })
 
 app.get('/about', (req, res) => {
-    res.render('I am about page also')
+    res.send('I am about page also')
 
 })
 
