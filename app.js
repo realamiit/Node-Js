@@ -6,6 +6,10 @@ app.use(morgan('dev'))
 
 app.set("view engine", "ejs");
 
+// this is third middelwire name is Built in middlewiere
+app.use(express.json)
+app.use(express.urlencoded)
+
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -31,8 +35,8 @@ app.get('/papaya', (req, res) => {
 
 })
 
-app.get('/get-from-data', (req,res) =>{  //get method basicly use for go to data server to frontend
-    console.log(req.querry)
+app.post('/get-from-data', (req,res) =>{  //get method basicly use for frontend to data backend tk carry krwana
+    console.log(req,body)
     res.send('data recived')
 })
 
