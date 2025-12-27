@@ -1,12 +1,27 @@
 const express = require('express');
+var morgan = require('morgan')
 const app = express()
 
+app.use(morgan('dev'))
 app.set ('view engine', 'ejs')
+
+app.use((req,res, next) =>{
+    console.log('This is middlewere')
+    res.send('this is middlewere   l')
+
+    const a = 4
+    const b = 4
+
+    console.log(a + b)
+
+    return next()
+})
 
 app.get('/', (req, res) => {
     res.render('index')
 
 })
+
 
 app.get('/about', (req, res) => {
     res.send('I am about page also')
