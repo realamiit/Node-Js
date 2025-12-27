@@ -4,12 +4,13 @@ const app = express();
 
 app.use(morgan('dev'))
 
-app.set("view engine", "ejs");
 
 // this is third middelwire name is Built in middlewiere
-app.use(express.json)
-app.use(express.urlencoded)
+app.use(express.json())
+app.use(express.urlencoded({ extended : true}))
+app.use(express.static("public"))
 
+app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -36,9 +37,10 @@ app.get('/papaya', (req, res) => {
 })
 
 app.post('/get-from-data', (req,res) =>{  //get method basicly use for frontend to data backend tk carry krwana
-    console.log(req,body)
+    const data =(req.body);
+    console.log(data);
     res.send('data recived')
 })
 
 
-app.listen(3000)
+app.listen(3005)
