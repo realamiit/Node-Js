@@ -2,14 +2,6 @@ const express = require('express');
 var morgan = require('morgan')
 const app = express()
 
-app.use(morgan('dev'))
-app.set ('view engine', 'ejs')
-
-app.use((req,res, next) =>{
-    console.log('This is middlewere')
-    return next()
-})
-
 app.get('/', (req, res) => {
     res.render('index')
 
