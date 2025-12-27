@@ -31,7 +31,7 @@ app.get('/papaya', (req, res) => {
 
 })
 
-app.get('/get-from-data', (req,res) =>{
+app.get('/get-from-data', (req,res) =>{  //get method basicly use for go to data server to frontend
     console.log(req.querry)
     res.send('data recived')
 })
