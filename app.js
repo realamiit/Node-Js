@@ -7,13 +7,6 @@ app.set ('view engine', 'ejs')
 
 app.use((req,res, next) =>{
     console.log('This is middlewere')
-    res.send('this is middlewere   l')
-
-    const a = 4
-    const b = 4
-
-    console.log(a + b)
-
     return next()
 })
 
