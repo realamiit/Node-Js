@@ -6,13 +6,21 @@
     <title>Document</title>
 </head>
 <body>
-    <h4>Hello World</h4>
-    <h1>Hyy I am Amit</h1>
-    <h2>Welcome to EJS Templating</h2>
-    <h3>This is my first EJS file</h3>
-    <p>This is a paragraph to demonstrate EJS templating.</p>
-    
-    <p>Enjoy coding with EJS!</p>
-    <img src="Amit.jpeg" alt="Amit Image" width="200" height="200" />
+    <form action="get-from-data" method="post">
+        <input type="text"
+         placeholder="Enter your name" 
+         style="padding: 10px; font-size: 16px; border: 2px solid #0571be; border-radius: 5px;" name="username"  />
+         
+         <input type="password"
+         placeholder="Enter your password"
+         style="padding: 10px; font-size: 16px; border: 2px solid #0895b1; border-radius: 5px;" name="password"/>
+            
+         <input type="email"
+         placeholder="Enter your email"
+         style="padding: 10px; font-size: 16px; border: 2px solid #0889da; border-radius: 5px;"  name="email" />
+           
+         <button type="submit"
+            style="padding: 10px 20px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px;">Submit</button>
+    </form>
 </body>
 </html>
