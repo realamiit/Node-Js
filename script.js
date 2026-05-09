@@ -1,6 +1,7 @@
-let n = 5;
+// Basicly its calls (used) function by the math.js 
+const math = require("./math");
 
-for(let i = 0; i<=n; i++){
 
-    console.log("Hellow ",i);
-}
+console.log(math.sum(2,2));
+console.log(math.mul(2,4));
+console.log(math.div(4,2));
