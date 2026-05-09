@@ -1,10 +1,10 @@
-module.exports.sum = (a, b) => a+b;  // this is alsoo we know all about because we never confuse anytime
+exports.sum = (a, b) => a+b;  // this is alsoo we know all about because we never confuse anytime
 
 module.exports.sub = (a, b) => a-b;
 module.exports.mul = (a, b) => a*b;
 module.exports.div = (a, b) => a/b;
-module.exports.g =  9.85;
-module.exports.PI = 3.14;
+exports.g =  9.85;
+exports.PI = 3.14;
 
 // const sum = (a, b) => a+b;
 
