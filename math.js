@@ -1,3 +1,5 @@
+// module.exports.sum = (a, b) => a+b;  // this is alsoo we know all about because we never confuse anytime
+
 const sum = (a, b) => a+b;
 
 const sub = (a, b) => a-b;
@@ -10,7 +12,7 @@ const g = 9.09;
 
 const PI = 3.14;
 
-// module.exports = sum,mul,sub,div,PI,g;
+// module.exports = sum,mul,sub,div,PI,g;  //this is also a good practice
 // or
 let obj = {
     sum: sum,
