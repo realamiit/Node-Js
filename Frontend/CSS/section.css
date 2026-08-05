@@ -1,0 +1,12 @@
+section{
+    padding: 80px 20px;
+
+}
+.services-grids{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+.service-card {
+  padding: 40px 30px;
+  background-color: var(--accent-2);
+}
