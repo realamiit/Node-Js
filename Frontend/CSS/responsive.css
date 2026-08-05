@@ -1,0 +1,13 @@
+@media (max-width: 768px) {
+    nav ul {
+        display: none;  /* links pucpane ke liye  */
+    }
+
+    .hamburger {
+         display: flex;   /* hamburger dikhane ke liye  */
+
+    }
+    .services-grids {
+        grid-template-columns: 1fr;    /*  1 column mobile pe dikhega  */
+    }
+}
