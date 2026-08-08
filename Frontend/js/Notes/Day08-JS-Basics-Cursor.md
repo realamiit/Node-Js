@@ -1,4 +1,4 @@
-# Day 8 — JavaScript Basics (Custom Cursor)
+# Day 8 (Part 2) — JavaScript: Canvas Particles Animation
 
 > Learning journal — Portfolio Website Project
 > Mentor: Claude | Student: Amit Gupta
@@ -6,105 +6,155 @@
 ---
 
 ## 🎯 Goal of the Day
-Samajhna ki JavaScript se ek custom cursor kaise banate hain jo mouse ke saath move kare.
+Canvas API se ek floating particles background banana — static dots se leke smooth animation tak.
 
 ---
 
 ## 🧠 New Concepts Seekhe
 
-### 1. `document.querySelector()`
-HTML se ek element dhoondh ke JS variable mein store karta hai — CSS selector jaisi hi syntax use hoti hai.
+### 1. Canvas Setup
+`<canvas>` ek khaali drawing board hai jisme JS shapes draw kar sakta hai.
 
 ```js
-const cursor = document.querySelector('.custom-cursor');
-```
-👉 Ab `cursor` variable us actual HTML div ko refer karta hai.
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
 
----
-
-### 2. `addEventListener()`
-"Jab bhi X action ho, Y function chalao" — is pattern ko event listener kehte hain.
-
-```js
-document.addEventListener('mousemove', function(e) {
-  // yeh code chalega jab bhi mouse move hoga
-});
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 ```
 
-- `document` → poora page (jahan event track karna hai)
-- `'mousemove'` → event ka naam
-- `function(e) {}` → jo function automatically trigger hoga
+- `getContext('2d')` → drawing ka "brush" milta hai (`ctx` variable)
+- `window.innerWidth` / `innerHeight` → current browser window ki size (canvas ko full-screen banane ke liye)
 
----
-
-### 3. Event Object (`e`)
-- Browser **khud** banata hai jab event hota hai — hum manually value set nahi karte.
-- Isme event se related saari info hoti hai.
-- Mouse events ke liye important properties:
-  - `e.clientX` → mouse ki horizontal position (px mein)
-  - `e.clientY` → mouse ki vertical position (px mein)
-
-💡 **Yaad rakhne wali baat:** `e` ka naam tu khud choose karta hai (convention `e` ya `event`), lekin uski **value hamesha browser deta hai**.
-
----
-
-### 4. `.style.property` se position set karna
-JS se kisi element ki CSS property directly change kar sakte hain:
-
-```js
-cursor.style.left = "100px";
-cursor.style.top = "50px";
-```
-
-⚠️ Number ke saath `"px"` add karna zaroori hai — warna CSS samajh nahi payega.
-
----
-
-## 🔗 Final Code — cursor.js
-
-```js
-const cursor = document.querySelector('.custom-cursor');
-
-document.addEventListener('mousemove', function(e) {
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
-});
-```
-
-**Logic Summary:**
-1. HTML se cursor div pakड़a
-2. Mouse move hone par event trigger hota hai
-3. `e.clientX` / `e.clientY` se current mouse position milti hai
-4. Wahi position cursor div ko de di — isliye div mouse ke saath chalta hua dikhta hai
-
----
-
-## 🎨 Related CSS (animations.css mein)
-
+⚠️ **Bug jo mila:** Canvas ko CSS mein `position: fixed` na dene se woh normal page flow mein ek bahut bada block bana ke baith gaya tha — content ke bahut niche chala gaya. Fix:
 ```css
-.custom-cursor {
+#particles-canvas {
   position: fixed;
-  width: 20px;
-  height: 20px;
-  background-color: var(--accent-3);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+```
+`z-index: -1` zaroori hai warna canvas baaki content ke **upar** aakar sab chhupa deta.
+
+---
+
+### 2. Circle Draw Karna (`ctx.arc`)
+
+```js
+ctx.beginPath();
+ctx.arc(100, 100, 5, 0, Math.PI * 2);
+ctx.fillStyle = "#c47840";
+ctx.fill();
+```
+
+- `beginPath()` → naya shape shuru karne ka signal
+- `arc(x, y, radius, startAngle, endAngle)` → `0` se `Math.PI * 2` matlab poora 360° circle
+- `fillStyle` → color set karta hai
+- `fill()` → actually rang bharta hai (draw hota hai)
+
+---
+
+### 3. Array + Object — Multiple Particles Ka Data
+
+Ek particle ki properties: position (x, y), size, speed.
+
+```js
+let particles = [];
+
+for (let i = 0; i < 50; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: 3,
+    speedX: (Math.random() - 0.5) * 2,
+    speedY: (Math.random() - 0.5) * 2
+  });
 }
 ```
 
-- `position: fixed` → taaki `left`/`top` se position control ho sake
-- `pointer-events: none` → cursor div khud clicks ko block na kare
-- `z-index: 9999` → hamesha sabse upar dikhe
+- `Math.random()` → 0 se 1 ke beech random decimal number deta hai
+- `Math.random() * canvas.width` → poori screen width mein kahin bhi random position
+- `(Math.random() - 0.5) * 2` → -1 se +1 ke beech random speed (kuch particles left move, kuch right)
+- `.push({...})` → array mein naya object add karta hai
+
+💡 **Object vs Array:** Object ek cheez ki properties store karta hai (`{x, y, size}`), Array bahut saari cheezein list mein rakhta hai (`[particle1, particle2, ...]`).
 
 ---
 
-## ❓ Checkpoint Q&A
+### 4. Loop Se Sab Particles Draw Karna
 
-**Q: `e` (event object) kaun deta hai — hum ya browser?**
-**A:** Browser automatically deta hai jab event fire hota hai. Hum sirf function ke parameter ka naam likhte hain (`e`), value browser assign karta hai.
+```js
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < particles.length; i++) {
+    let p = particles[i];
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = "#c47840";
+    ctx.fill();
+  }
+}
+
+drawParticles();
+```
+
+- `particles.length` → array mein kitne items hain (yahan 50)
+- `particles[i]` → array ka ek specific item (index se access)
+- `ctx.clearRect()` → canvas ko saaf karta hai purane frame se (animation ke liye zaroori)
+- Function likhne ke baad use **call bhi karna padta hai** (`drawParticles()`), warna wo sirf "defined" rehta hai, chalta nahi.
+
+---
+
+### 5. Animation Loop (`requestAnimationFrame`)
+
+```js
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < particles.length; i++) {
+    let p = particles[i];
+
+    p.x += p.speedX;
+    p.y += p.speedY;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = "#c47840";
+    ctx.fill();
+  }
+
+  requestAnimationFrame(animateParticles);
+}
+
+animateParticles();
+```
+
+- `p.x += p.speedX` → position mein har frame speed add hoti hai, isse movement dikhta hai
+- `requestAnimationFrame(animateParticles)` → function khud ko baar-baar call karta hai (~60 times/second), isse infinite smooth loop banta hai
+
+💡 **Yeh pattern bahut important hai** — games, animations, aur kisi bhi "continuously update hone wali cheez" mein yehi `requestAnimationFrame` loop use hota hai.
+
+---
+
+## 🐛 Errors Mile Aur Fix Kiye
+
+| Error | Reason | Fix |
+|---|---|---|
+| `<canvas = id="...">` | Extra `=` — HTML attribute syntax galat | `<canvas id="...">` |
+| `getElementById('#id')` | `#` sirf `querySelector` ke liye hota hai | `getElementById('id')` (bina `#`) |
+| Particles invisible the | Canvas ko `position: fixed` nahi diya tha | CSS mein fixed + top/left + z-index add kiya |
+| `particles` array "not defined" jaisa behave kar raha tha | Poora array-banane wala code galti se `//` se comment ho gaya tha | Comments hataye (uncomment kiya) |
+
+💡 **Sabse badi lesson:** `//` comment silent bug create karta hai — code error nahi deta dikhne mein, bas chalta hi nahi. Jab kuch expected se kaam na kare, sabse pehle apna **poora code top se padhna** chahiye.
 
 ---
 
 ## 📌 Key Takeaway
-JavaScript event-driven hota hai — hum "wait karo aur react karo" wala logic likhte hain (event listener), pura page baar-baar check nahi karte manually.
+Canvas animation 3 building blocks se banta hai:
+1. **Data** (array of objects — particles ki properties)
+2. **Draw logic** (loop se har object ko canvas pe render karna)
+3. **Loop** (`requestAnimationFrame` se continuously repeat karna, position update karte hue)
+
+Yehi pattern (data → draw → loop) games aur complex animations mein bhi use hota hai — bas complexity badhती hai.
