@@ -16,3 +16,10 @@ section{
     height: 100%;
     background-color: var(--accent-3);
 }
+
+.testimonial-card {
+  display: none;
+}
+.testimonial-card.active {
+  display: block;
+}
