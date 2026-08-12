@@ -35,5 +35,3 @@ function animateParticles() {
 }
 
 animateParticles();
-
-drawParticles();
