@@ -1,6 +1,5 @@
 section{
     padding: 80px 20px;
-
 }
 .services-grids{
     display: grid;
@@ -9,6 +8,8 @@ section{
 .service-card {
   padding: 40px 30px;
   background-color: var(--accent-2);
+  cursor: pointer;
+  border-radius: 10px;
 }
 
 .skill-fill {
@@ -33,6 +34,7 @@ section{
   width: 12px;
   height: 12px;
   background-color: #2d2d2d;
+  cursor: pointer;
 }
 .level-0 { background-color: #2d2d2d; }
 .level-1 { background-color: #6b2d22; }
